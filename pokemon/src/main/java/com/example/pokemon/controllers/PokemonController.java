@@ -1,20 +1,19 @@
 package com.example.pokemon.controllers;
 
 import com.example.pokemon.dto.PokemonDto;
-import com.example.pokemon.models.Pokemon;
+
 import com.example.pokemon.services.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
 public class PokemonController {
-    private  PokemonService pokemonService;
+    private final PokemonService pokemonService;
 @Autowired
     public PokemonController(PokemonService pokemonService) {
         this.pokemonService = pokemonService;

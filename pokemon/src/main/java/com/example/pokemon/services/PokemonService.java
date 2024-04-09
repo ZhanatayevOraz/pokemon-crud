@@ -2,6 +2,7 @@ package com.example.pokemon.services;
 
 import com.example.pokemon.dto.PokemonDto;
 import com.example.pokemon.models.Pokemon;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

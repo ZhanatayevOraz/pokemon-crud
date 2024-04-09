@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,8 +34,8 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public List<PokemonDto> getAllPokemon() {
-        List<Pokemon> pokemons =pokemonRepository.findAll();
-        return pokemons.stream().map(p -> mapToDto(p)).collect(Collectors.toList());
+        List<Pokemon> pokemon =pokemonRepository.findAll();
+        return pokemon.stream().map(p -> mapToDto(p)).collect(Collectors.toList());
     }
 
     @Override
