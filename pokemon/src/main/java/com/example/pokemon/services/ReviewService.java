@@ -10,9 +10,9 @@ public interface ReviewService {
 
     List<ReviewDto> getReviewByPokemonId(int pokemonId);
 
-    ReviewDto getReviewById(int id, int pokemonId) throws Exception;
+    ReviewDto getReviewById(int id, int pokemonId) ;
 
     ReviewDto updateReview(int id, int pokemonId, ReviewDto reviewDto) throws Exception;
 
-    void deleteReview(int id, int pokemonId) throws Exception;
+    void deleteReview(int id, int pokemonId)  ;
 }

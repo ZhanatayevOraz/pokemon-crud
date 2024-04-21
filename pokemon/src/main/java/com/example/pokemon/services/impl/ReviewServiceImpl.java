@@ -8,9 +8,11 @@ import com.example.pokemon.repositoryies.PokemonRepository;
 import com.example.pokemon.repositoryies.ReviewRepository;
 import com.example.pokemon.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,14 +45,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewDto getReviewById(int id, int pokemonId) throws Exception {
-        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow();
+    public ReviewDto getReviewById(int id, int pokemonId) {
+        Pokemon pokemon = pokemonRepository.findById(pokemonId)
+                .orElseThrow(() -> new NoSuchElementException("No Pokemon found with ID: " + pokemonId));
 
-        Review review = reviewRepository.findById(id).orElseThrow();
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No Review found with ID: " + id));
 
-        if(pokemon.getId() != review.getPokemon().getId()){
-            throw new Exception("Pokemon doesn't have this review");
+        if (pokemon.getId() != review.getPokemon().getId()) {
+            throw new IllegalArgumentException("Review ID " + id + " does not belong to Pokemon ID " + pokemonId);
         }
+
         return mapToDto(review);
     }
 
@@ -72,12 +77,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteReview(int id, int pokemonId) throws Exception {
-        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow();
+    public void deleteReview(int id, int pokemonId) {
+        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new EmptyResultDataAccessException("No Pokemon found with ID: " + pokemonId, 1));
+        Review review = reviewRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException("No Review found with ID: " + id, 1));
 
-        Review review = reviewRepository.findById(id).orElseThrow();
         if(pokemon.getId() != review.getPokemon().getId()){
-            throw new Exception("Pokemon doesn't have this review");
+            throw new IllegalArgumentException("Review ID " + id + " does not belong to Pokemon ID " + pokemonId);
         }
         reviewRepository.delete(review);
     }

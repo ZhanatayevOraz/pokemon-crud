@@ -30,7 +30,7 @@ public class ReviewController {
     }
 
     @GetMapping("pokemon/{pokemonId}/review/{reviewId}")
-    public ResponseEntity<ReviewDto> getReviewById(@PathVariable(value = "pokemonId")int pokemonId, @PathVariable(value = "pokemonId")int reviewId) {
+    public ResponseEntity<ReviewDto> getReviewById(@PathVariable(value = "pokemonId")int pokemonId, @PathVariable(value = "reviewId")int reviewId) {
         ReviewDto reviewDto;
         try {
             reviewDto = reviewService.getReviewById(reviewId, pokemonId);
@@ -40,7 +40,7 @@ public class ReviewController {
         return new ResponseEntity<>(reviewDto, HttpStatus.OK);
     }
     @PutMapping("pokemon/{pokemonId}/review/{reviewId}")
-    public ResponseEntity<ReviewDto> updateReview(@PathVariable(value = "pokemonId")int pokemonId, @PathVariable(value = "pokemonId")int reviewId,@RequestBody ReviewDto reviewDto) {
+    public ResponseEntity<ReviewDto> updateReview(@PathVariable(value = "pokemonId")int pokemonId, @PathVariable(value = "reviewId")int reviewId,@RequestBody ReviewDto reviewDto) {
         ReviewDto updateReviewDto;
         try {
             updateReviewDto = reviewService.updateReview(reviewId, pokemonId,reviewDto);
@@ -50,14 +50,13 @@ public class ReviewController {
         return new ResponseEntity<>(updateReviewDto, HttpStatus.OK);
     }
     @DeleteMapping("pokemon/{pokemonId}/review/{reviewId}")
-    public ResponseEntity<String> deleteReview(@PathVariable(value = "pokemonId")int pokemonId, @PathVariable(value = "pokemonId")int reviewId) {
-        ReviewDto reviewDto;
+    public ResponseEntity<String> deleteReview(@PathVariable(value = "pokemonId")int pokemonId, @PathVariable(value = "reviewId")int reviewId) {
         try {
             reviewService.deleteReview(reviewId, pokemonId);
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 
 }
